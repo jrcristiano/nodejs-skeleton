@@ -8,14 +8,14 @@ module.exports = (req, res, next) => {
     });
   }
 
-  jwt.verify(accessToken, process.env.API_SECRET_TOKEN, (err, decoded) => {
+  jwt.verify(accessToken, process.env.API_SECRET_TOKEN, (err, user) => {
     if (err) {
       return res.status(500).json({
         message: 'Failed to authenticate token.',
       });
     }
 
-    req.userId = decoded.id;
+    req.user = user;
     next();
   });
 };
