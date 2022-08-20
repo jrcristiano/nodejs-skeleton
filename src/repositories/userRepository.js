@@ -1,5 +1,4 @@
 const model = require('../database');
-const paginate = require('../utils/paginate');
 
 const table = 'users';
 
@@ -17,14 +16,6 @@ module.exports = {
   getAll() {
     return model.table(table)
         .select(columns);
-  },
-
-  paginate(req) {
-    const knex = model.table(table)
-        .select(columns)
-        .orderBy('id', 'desc');
-
-    return paginate(knex, req);
   },
 
   findById(id) {

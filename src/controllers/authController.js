@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
+const userResource = require('../resources/userResource');
 
 require('dotenv').config();
 
@@ -17,7 +18,8 @@ module.exports = {
         });
       }
 
-      const user = await userService.findByEmail(email);
+      let user = await userService.findByEmail(email);
+
       if (!user) {
         return res.status(404).json({
           message: 'User not found.',
@@ -31,27 +33,18 @@ module.exports = {
         });
       }
 
-      delete user.password;
-
       const expiresIn = 3600;
+
+      user = userResource(user);
       const token = jwt.sign(user, process.env.API_SECRET_TOKEN, {
         expiresIn,
       });
 
       return res.status(200).json({
+        user: user,
         token,
         expiresIn,
       });
-    } catch ({message}) {
-      return res.status(500).json({message});
-    }
-  },
-
-  getLoggedUser({loggedUser}, res) {
-    try {
-      delete loggedUser.iat;
-      delete loggedUser.exp;
-      return res.status(200).json(loggedUser);
     } catch ({message}) {
       return res.status(500).json({message});
     }

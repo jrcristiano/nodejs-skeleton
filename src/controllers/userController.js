@@ -5,7 +5,7 @@ const userService = require('../services/userService');
 module.exports = {
   async index(req, res) {
     try {
-      return res.status(200).json(await userService.paginate(req));
+      return res.status(200).json(await userService.getAll(req));
     } catch ({message}) {
       return res.status(500).json({message});
     }

@@ -5,10 +5,6 @@ module.exports = {
     return userRepository.getAll();
   },
 
-  paginate(req) {
-    return userRepository.paginate(req);
-  },
-
   findById(id) {
     return userRepository.findById(id);
   },

@@ -14,7 +14,6 @@ const userValidation = require('../validations/userValidation');
 
 /* Login */
 router.post('/login', authController.login);
-router.get('/authenticated-user', checkJwt, authController.getLoggedUser);
 router.post('/register', userValidation.store, userController.store);
 
 /* Users */
